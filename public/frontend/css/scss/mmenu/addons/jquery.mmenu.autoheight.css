@@ -1,0 +1,16 @@
+/*
+	jQuery.mmenu autoHeight addon CSS
+*/
+/* line 13, jquery.mmenu.autoheight.scss */
+.mm-menu.mm-top.mm-autoheight, .mm-menu.mm-bottom.mm-autoheight {
+  max-height: 80%;
+}
+/* line 17, jquery.mmenu.autoheight.scss */
+.mm-menu.mm-top.mm-autoheight.mm-fullscreen, .mm-menu.mm-bottom.mm-autoheight.mm-fullscreen {
+  max-height: 100%;
+}
+/* line 23, jquery.mmenu.autoheight.scss */
+.mm-menu.mm-measureheight > .mm-panel {
+  bottom: auto !important;
+  height: auto !important;
+}

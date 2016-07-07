@@ -1,0 +1,58 @@
+/* columns of same height styles */
+
+.row-full-height {
+  height: 100%;
+}
+.col-full-height {
+  height: 100%;
+  vertical-align: middle;
+}
+.row-same-height , .row-xs-same-height{
+  display: table; table-layout: fixed; width: 100%; vertical-align: middle;
+}
+/*revert back to normal in md*/
+.row-md-same-height {
+  @extend .row-same-height;
+  @media (max-width: 991px) {
+    display: block;
+  }
+}
+.row-sm-same-height {
+  @extend .row-same-height;
+  @media (max-width: 767px) {
+    display: block;
+  }
+}
+.col-xs-height {
+  display: table-cell;
+  float: none !important;
+}
+/*alignments*/
+.col-top {
+  vertical-align: top;
+}
+.col-middle {
+  vertical-align: middle;
+}
+.col-bottom {
+  vertical-align: bottom;
+}
+//@include responsive($big-break) {  }
+@media (min-width: 768px) {
+  .col-sm-height {
+    display: table-cell;
+    float: none !important;
+  }
+}
+@media (min-width: 992px) {
+  .col-md-height {
+    display: table-cell;
+    float: none !important;
+  }
+}
+@media (min-width: 1000px) {
+  .col-lg-height {
+    display: table-cell;
+    float: none !important;
+  }
+}
