@@ -13,42 +13,58 @@
 <br>
 <br>
 <div class="container">
+
     {!! Form::open(array('action' => '\Fully\Http\Controllers\Admin\PageController@store')) !!}
-    <!-- Title -->
-    <div class="control-group {!! $errors->has('title') ? 'has-error' : '' !!}">
-        <label class="control-label" for="title">Title</label>
+    <div class="col-md-12">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                    <li class="{{$localeCode==LaravelLocalization::getCurrentLocale()?'active':''}}"><a href="#box-{{$localeCode}}" data-toggle="tab">{!! $properties['native'] !!}</a></li>
+                @endforeach
 
-        <div class="controls">
-            {!! Form::text('title', null, array('class'=>'form-control', 'id' => 'title', 'placeholder'=>'Title', 'value'=>Input::old('title'))) !!}
-            @if ($errors->first('title'))
-            <span class="help-block">{!! $errors->first('title') !!}</span>
-            @endif
-        </div>
-    </div>
-    <br>
-    <!-- Content -->
-    <div class="control-group {!! $errors->has('content') ? 'has-error' : '' !!}">
-        <label class="control-label" for="title">Content</label>
+            </ul>
+            <div class="tab-content">
+                @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                    <div  class="{{$localeCode==LaravelLocalization::getCurrentLocale()?'active':''}} tab-pane" id="box-{{$localeCode}}">
+                        <!-- Title -->
+                        <div class="control-group {!! $errors->has('title.'.$localeCode) ? 'has-error' : '' !!}">
+                            <label class="control-label" for="title">Title</label>
+                            <div class="controls">
+                                {!! Form::text('title['.$localeCode.']', null, array('class'=>'form-control', 'id' => 'title'.$localeCode, 'placeholder'=>'Title', 'value'=>Input::old('title.'.$localeCode))) !!}
+                                @if ($errors->first('title.'.$localeCode))
+                                    <span class="help-block">{!! $errors->first('title.'.$localeCode) !!}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <br>
+                        <!-- Content -->
+                        <div class="control-group {!! $errors->has('content.'.$localeCode) ? 'has-error' : '' !!}">
+                            <label class="control-label" for="title">Content</label>
 
-        <div class="controls">
-            {!! Form::textarea('content', null, array('class'=>'form-control', 'id' => 'content', 'placeholder'=>'Content', 'value'=>Input::old('content'))) !!}
-            @if ($errors->first('content'))
-            <span class="help-block">{!! $errors->first('content') !!}</span>
-            @endif
-        </div>
-    </div>
-    <br>
-    <!-- Published -->
-    <div class="control-group {!! $errors->has('is_published') ? 'has-error' : '' !!}">
+                            <div class="controls">
+                                {!! Form::textarea('content['.$localeCode.']', null, array('class'=>'form-control', 'id' => 'content', 'placeholder'=>'Content', 'value'=>Input::old('content.'.$localeCode))) !!}
+                                @if ($errors->first('content.'.$localeCode))
+                                    <span class="help-block">{!! $errors->first('content.'.$localeCode) !!}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <br>
+                        <!-- Published -->
+                        <div class="control-group {!! $errors->has('is_published.'.$localeCode) ? 'has-error' : '' !!}">
 
-        <div class="controls">
-            <label class="">{!! Form::checkbox('is_published', 'is_published') !!} Publish ?</label>
-            @if ($errors->first('is_published'))
-            <span class="help-block">{!! $errors->first('is_published') !!}</span>
-            @endif
-        </div>
-    </div>
-    <br>
+                            <div class="controls">
+                                <label class="">{!! Form::checkbox('is_published['.$localeCode.']', "is_published[$localeCode]") !!} Publish ?</label>
+                                @if ($errors->first('is_published.'.$localeCode))
+                                    <span class="help-block">{!! $errors->first('is_published.'.$localeCode) !!}</span>
+                                @endif
+                            </div>
+                        </div>
+                        <br>
+                    </div><!-- /.tab-pane -->
+                @endforeach
+            </div><!-- /.tab-content -->
+        </div><!-- /.nav-tabs-custom -->
+    </div><!-- /.col -->
     <!-- Form actions -->
     {!! Form::submit('Create', array('class' => 'btn btn-success')) !!}
     {!! Form::close() !!}

@@ -26,14 +26,12 @@ abstract class AbstractValidator
      */
     public function isValid(array $attributes, array $rules = null)
     {
-        $v = V::make($attributes, ($rules) ? $rules : static::$rules);
 
+        $v = V::make($attributes, ($rules) ? $rules : static::$rules);
         if ($v->fails()) {
             $this->setErrors($v->messages());
-
             return false;
         }
-
         return true;
     }
 

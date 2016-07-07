@@ -60,6 +60,7 @@ class PageController extends Controller
      */
     public function store()
     {
+
         try {
             $this->page->create(Input::all());
             Flash::message('Page was successfully added');

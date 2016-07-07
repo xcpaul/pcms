@@ -5,6 +5,7 @@ namespace Fully\Repositories\Page;
 use Fully\Models\Page;
 use Config;
 use Response;
+use LaravelLocalization;
 use Fully\Repositories\RepositoryAbstract;
 use Fully\Repositories\CrudableInterface as CrudableInterface;
 use Fully\Exceptions\Validation\ValidationException;
@@ -30,8 +31,8 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
      * @var array
      */
     protected static $rules = [
-        'title' => 'required|min:3',
-        'content' => 'required|min:5', ];
+        'title' => 'required|min:10',
+        'content' => 'required|min:50', ];
 
     /**
      * @param Page $page
@@ -40,6 +41,14 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
     {
         $config = Config::get('fully');
         $this->perPage = $config['per_page'];
+        $lan_rules=array();
+        foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties){
+            $title_key='title.'.$localeCode.'';
+            $content_key='content.'.$localeCode.'';
+            $lan_rules[$title_key]='required|min:3';
+            $lan_rules[$content_key]='required|min:5';
+        }
+        static::$rules=$lan_rules;
         $this->page = $page;
     }
 
@@ -123,16 +132,27 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
      */
     public function create($attributes)
     {
-        $attributes['is_published'] = isset($attributes['is_published']) ? true : false;
-
-        if ($this->isValid($attributes)) {
-            $this->page->lang = $this->getLang();
-            $this->page->fill($attributes)->save();
-
-            return true;
+        $lang_attributes=array();
+        foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties){
+            $lang_attribute=array();
+            $lang_attribute_validate=array();
+            foreach($attributes as $name=>$attribute){
+                $lang_attribute[$name]=isset($attribute[$localeCode])?$attribute[$localeCode]:'';
+                $lang_attribute_validate[$name][$localeCode]=isset($attribute[$localeCode])?$attribute[$localeCode]:'';
+            }
+            $lang_attribute['is_published'] = isset($attributes['is_published'][$localeCode]) ? true : false;
+            $lang_attribute_validate['is_published'][$localeCode]=isset($attributes['is_published'][$localeCode]) ? true : false;
+            if (!$this->isValid($attributes)) {
+                throw new ValidationException('Page validation failed', $this->getErrors());
+            }
+            $lang_attributes[$localeCode]=$lang_attribute;
         }
-
-        throw new ValidationException('Page validation failed', $this->getErrors());
+        foreach($lang_attributes as $lang_localeCode=> $lang_attribute){
+                $page=new Page;
+                $page->lang =$lang_localeCode;
+                $page->fill($lang_attribute)->save();
+        }
+        return true;
     }
 
     /**
