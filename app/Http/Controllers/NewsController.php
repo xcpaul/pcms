@@ -40,7 +40,6 @@ class NewsController extends Controller
     {
         $pagiData = $this->news->paginate($request->get('page', 1), $this->perPage, false);
         $news = Pagination::makeLengthAware($pagiData->items, $pagiData->totalItems, $this->perPage);
-
         return view('frontend.news.index', compact('news'));
     }
 

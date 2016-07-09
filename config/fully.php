@@ -34,6 +34,7 @@ return [
             ],
 
             'image_dir' => '/uploads/slider/',
+            'per_page' => 10,
         ],
 
         'article' => [

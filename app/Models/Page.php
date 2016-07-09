@@ -33,4 +33,5 @@ class Page extends BaseModel implements ModelInterface, SluggableInterface
     {
         return 'page/'.$this->attributes['slug'];
     }
+
 }

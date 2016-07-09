@@ -6,6 +6,7 @@ use View;
 use Input;
 use Flash;
 use Response;
+use Fully\Models\LanguageData;
 use Fully\Services\Pagination;
 use Fully\Http\Controllers\Controller;
 use Fully\Repositories\Page\PageInterface;
@@ -94,9 +95,21 @@ class PageController extends Controller
      */
     public function edit($id)
     {
-        $page = $this->page->find($id);
 
-        return view('backend.page.edit', compact('page'));
+        $languageData=LanguageData::whereType('PAGE')
+            ->where('lang_data_id','=',$id)
+            ->where('lang','=',getLang())->first();
+        $pairing_id=$languageData?$languageData->pairing_id:NULL;
+        $languageDatas=LanguageData::wherePairing_id($pairing_id)->whereType('PAGE')
+            ->with('Page')->get();
+
+        $pages_lang_data=array();
+        foreach($languageDatas as $languageData){
+            $page=$languageData->Page;
+            $pages_lang_data[$page->lang]=$page;
+        }
+        $page = $this->page->find($id);
+        return view('backend.page.edit', compact('pages_lang_data','page'));
     }
 
     /**
@@ -114,7 +127,7 @@ class PageController extends Controller
 
             return langRedirectRoute('admin.page.index');
         } catch (ValidationException $e) {
-            return langRedirectRoute('admin.page.edit')->withInput()->withErrors($e->getErrors());
+            return langRedirectRoute('admin.page.edit',array($id))->withInput()->withErrors($e->getErrors());
         }
     }
 
@@ -127,10 +140,14 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
-        $this->page->delete($id);
-        Flash::message('Page was successfully deleted');
+        if( $this->page->delete($id)){
+            Flash::message('Page was successfully deleted');
+            return langRedirectRoute('admin.page.index');
+        }
+        else{
 
-        return langRedirectRoute('admin.page.index');
+            return langRedirectRoute('admin.page.index')->withErrors($this->page->msg);
+        }
     }
 
     public function confirmDestroy($id)

@@ -53,6 +53,11 @@ class PhotoGalleryRepository extends RepositoryAbstract implements PhotoGalleryI
         'title' => 'required|min:3|unique:categories',
     ];
 
+    protected static $attributeNames=
+        [
+
+        ];
+
     /**
      * Image rules.
      *

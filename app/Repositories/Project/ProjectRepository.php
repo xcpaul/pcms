@@ -62,6 +62,11 @@ class ProjectRepository extends RepositoryAbstract implements ProjectInterface, 
         'description' => 'required',
     ];
 
+    protected static $attributeNames=
+        [
+
+        ];
+
     public function __construct(Project $project)
     {
         $config = Config::get('fully');

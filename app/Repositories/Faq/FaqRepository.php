@@ -32,6 +32,10 @@ class FaqRepository extends RepositoryAbstract implements FaqInterface, Crudable
         'question' => 'required',
         'answer' => 'required',
     ];
+    protected static $attributeNames=
+        [
+
+        ];
 
     /**
      * @param Faq $faq

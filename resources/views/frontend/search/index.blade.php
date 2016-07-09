@@ -23,7 +23,7 @@
             @foreach( array_slice($paginator->toArray()['data'], (($paginator->toArray()['current_page']-1) * $paginator->toArray()['per_page']), $paginator->toArray()['per_page']) as $v )
             <div class="row">
                 <div class="col-sm-12">
-                    <a href="{!! langURL($v['url']) !!}">
+                    <a href="{!! url(langURL($v['url'])) !!}">
                         <h4>{!! $v['title'] !!}</h4>
                     </a>
                     <hr>
@@ -31,7 +31,7 @@
                 <div class="col-sm-12">
                     <p>{!! mb_substr(strip_tags($v['content']),0,400) !!}</p>
                     <br>
-                    <a href="{!! langURL($v['url']) !!}">{!! url($v['url']) !!}</a>
+                    <a href="{!! url(langURL($v['url'])) !!}">{!! url($v['url']) !!}</a>
                 </div>
             </div>
             <hr>

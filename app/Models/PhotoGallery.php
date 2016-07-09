@@ -36,6 +36,6 @@ class PhotoGallery extends BaseModel implements ModelInterface, SluggableInterfa
 
     public function getUrlAttribute()
     {
-        return 'photo-gallery/'.$this->attributes['slug'];
+        return '/photo-gallery/'.$this->attributes['slug'];
     }
 }

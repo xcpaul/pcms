@@ -24,6 +24,10 @@ class MenuRepository extends RepositoryAbstract implements MenuInterface
     {
         $this->menu = $menu;
     }
+    protected static $attributeNames=
+        [
+
+        ];
 
     /**
      * @return mixed

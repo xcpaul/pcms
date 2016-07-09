@@ -36,6 +36,10 @@ class VideoRepository extends RepositoryAbstract implements VideoInterface, Crud
         'video_id' => 'required',
         'type' => 'required',
     ];
+    protected static $attributeNames=
+        [
+
+        ];
 
     /**
      * @param Video $video

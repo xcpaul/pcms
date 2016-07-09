@@ -19,7 +19,6 @@ class Search
         $articleResult = Article::search($search)->get()->toArray();
         $photoGalleryResult = PhotoGallery::search($search)->get()->toArray();
         $result = array_merge($newsResult, $articleResult, $photoGalleryResult);
-
         return $result;
     }
 }

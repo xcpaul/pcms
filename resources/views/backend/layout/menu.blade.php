@@ -44,7 +44,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ url(getLang() . '/admin/page') }}"><i class="fa fa-folder"></i>{{trans('backend.all_pages')}}</a>
                     </li>
-                    <li><a href="{{ url(getLang() . '/admin/page/create') }}"><i class="fa fa-plus-square"></i>{{trans('backend.add_pages')}}e</a>
+                    <li><a href="{{ url(getLang() . '/admin/page/create') }}"><i class="fa fa-plus-square"></i>{{trans('backend.add_pages')}}</a>
                     </li>
                 </ul>
             </li>

@@ -53,6 +53,10 @@ class NewsRepository extends RepositoryAbstract implements NewsInterface, Crudab
         'content' => 'required',
         'datetime' => 'required|date',
     ];
+    protected static $attributeNames=
+        [
+
+        ];
 
     public function __construct(News $news)
     {
@@ -196,7 +200,6 @@ class NewsRepository extends RepositoryAbstract implements NewsInterface, Crudab
 
             return true;
         }
-
         throw new ValidationException('News validation failed', $this->getErrors());
     }
 
@@ -249,7 +252,6 @@ class NewsRepository extends RepositoryAbstract implements NewsInterface, Crudab
 
             return true;
         }
-
         throw new ValidationException('News validation failed', $this->getErrors());
     }
 

@@ -6,6 +6,8 @@ use Fully\Http\Controllers\Controller;
 use View;
 use Input;
 use Fully\Models\Slider;
+use Fully\Services\Pagination;
+use Fully\Repositories\Slider\SliderInterface;
 use Response;
 use File;
 use Image;
@@ -22,12 +24,15 @@ class SliderController extends Controller
     protected $width;
     protected $height;
     protected $imgDir;
+    protected $slider;
+    protected $perPage;
 
-    public function __construct()
+    public function __construct(SliderInterface $slider)
     {
         View::share('active', 'plugins');
-
+        $this->slider=$slider;
         $config = Config::get('fully');
+        $this->perPage = config('fully.modules.slider.per_page');
         $this->width = $config['modules']['slider']['image_size']['width'];
         $this->height = $config['modules']['slider']['image_size']['height'];
         $this->imgDir = $config['modules']['slider']['image_dir'];
@@ -40,8 +45,8 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::orderBy('created_at', 'DESC')->paginate(15);
-
+        $pagiData = $this->slider->paginate(Input::get('page', 1), $this->perPage, true);
+        $sliders = Pagination::makeLengthAware($pagiData->items, $pagiData->totalItems, $this->perPage);
         return view('backend.slider.index', compact('sliders'));
     }
 

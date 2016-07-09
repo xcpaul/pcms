@@ -19,7 +19,7 @@
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
                 @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                    <li class="{{$localeCode==LaravelLocalization::getCurrentLocale()?'active':''}}"><a href="#box-{{$localeCode}}" data-toggle="tab">{!! $properties['native'] !!}</a></li>
+                    <li class="{{$localeCode==LaravelLocalization::getCurrentLocale()?'active':''}}"><a href="#box-{{$localeCode}}" >{!! $properties['native'] !!}</a></li>
                 @endforeach
 
             </ul>
@@ -42,7 +42,7 @@
                             <label class="control-label" for="title">Content</label>
 
                             <div class="controls">
-                                {!! Form::textarea('content['.$localeCode.']', null, array('class'=>'form-control', 'id' => 'content', 'placeholder'=>'Content', 'value'=>Input::old('content.'.$localeCode))) !!}
+                                {!! Form::textarea('content['.$localeCode.']', null, array('class'=>'form-control', 'id' => 'content'.$localeCode, 'placeholder'=>'Content', 'value'=>Input::old('content.'.$localeCode))) !!}
                                 @if ($errors->first('content.'.$localeCode))
                                     <span class="help-block">{!! $errors->first('content.'.$localeCode) !!}</span>
                                 @endif
@@ -69,8 +69,18 @@
     {!! Form::submit('Create', array('class' => 'btn btn-success')) !!}
     {!! Form::close() !!}
     <script>
+        $('.nav-tabs li a').click(function (e) {
+            e.preventDefault();
+            var id=$(this).attr('href').replace('#box-', '');
+            if (CKEDITOR.instances['content'+id]) {
+                CKEDITOR.instances['content'+id].destroy();
+            }
+            CKEDITOR.replace('content'+id);
+            $(this).tab('show')
+        })
+
         window.onload = function () {
-            CKEDITOR.replace('content', {
+            CKEDITOR.replace('content{!! getLang() !!}', {
                 "filebrowserBrowseUrl": "{!! url('filemanager/show') !!}"
             });
         };

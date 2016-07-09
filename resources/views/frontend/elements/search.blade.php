@@ -1,5 +1,5 @@
 <div class="widget search">
-     <form action="{!! url('tr/search') !!}" method="GET" role="search">
+     <form action="{{route('admin.search')}}" method="GET" role="search">
         <div class="input-group">
             <input type="text" class="form-control" value="{!! $q or null !!}" name="search" autocomplete="off" placeholder="Search">
             <span class="input-group-btn">

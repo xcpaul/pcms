@@ -41,6 +41,6 @@ class Article extends BaseModel implements ModelInterface, SluggableInterface
 
     public function getUrlAttribute()
     {
-        return 'article/'.$this->attributes['slug'];
+        return '/article/'.$this->attributes['slug'];
     }
 }

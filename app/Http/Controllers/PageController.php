@@ -1,7 +1,7 @@
 <?php
 
 namespace Fully\Http\Controllers;
-
+use Response;
 use Fully\Repositories\Page\PageInterface;
 use Fully\Repositories\Page\PageRepository as Page;
 

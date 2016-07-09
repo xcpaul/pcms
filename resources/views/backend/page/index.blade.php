@@ -67,36 +67,24 @@
                                 <td> {!! link_to_route(getLang(). '.admin.page.show', $page->title, $page->id, array(
                                     'class' => 'btn btn-link btn-xs' )) !!}
                                 </td>
-                                <td>{!! $page->created_at !!}</td>
-                                <td>{!! $page->updated_at !!}</td>
+                                <td>{!! $page->created_at->format('d/m/Y') !!}</td>
+                                <td>{!! $page->updated_at->format('d/m/Y') !!}</td>
                                 <td>
-                                    <div class="btn-group">
-                                        <a class="btn btn-danger dropdown-toggle" data-toggle="dropdown" href="#">
-                                            Action <span class="caret"></span> </a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a href="{!! langRoute('admin.page.show', array($page->id)) !!}">
-                                                    <span class="glyphicon glyphicon-eye-open"></span>&nbsp;Show Page
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="{!! langRoute('admin.page.edit', array($page->id)) !!}">
-                                                    <span class="glyphicon glyphicon-edit"></span>&nbsp;Edit Page </a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li>
-                                                <a href="{!! URL::route('admin.page.delete', array($page->id)) !!}">
-                                                    <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;Delete
-                                                    Page </a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li>
-                                                <a target="_blank" href="{!! URL::route('dashboard.page.show', ['slug' => $page->slug]) !!}">
-                                                    <span class="glyphicon glyphicon-eye-open"></span>&nbsp;View On Site
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <a href="{!! langRoute('admin.page.show', array($page->id)) !!}">
+                                            <span class="glyphicon glyphicon-eye-close"></span>
+                                        </a>
+
+                                        <a href="{!! langRoute('admin.page.edit', array($page->id)) !!}">
+                                            <span class="glyphicon glyphicon-edit"></span>
+                                        </a>
+                                        @if($page->permanent===0)
+                                            <a href="{!! URL::route('admin.page.delete', array($page->id)) !!}">
+                                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                            </a>
+                                        @endif
+                                        <a target="_blank" href="{!! URL::route('dashboard.page.show', ['slug' => $page->slug]) !!}">
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                        </a>
                                 </td>
                                 <td>
                                     <a href="#" id="{!! $page->id !!}" class="publish"><img id="publish-image-{!! $page->id !!}" src="{!!url('/')!!}/assets/images/{!! ($page->is_published) ? 'publish.png' : 'not_publish.png'  !!}"/></a>

@@ -31,6 +31,10 @@ class CategoryRepository extends RepositoryAbstract implements CategoryInterface
     protected static $rules = [
         'title' => 'required|min:3|unique:categories',
     ];
+    protected static $attributeNames=
+        [
+
+        ];
 
     /**
      * @param Category $category

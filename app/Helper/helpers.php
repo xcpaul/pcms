@@ -75,7 +75,10 @@ function langRoute($route, $parameters = array())
  *
  * @return mixed
  */
-function langRedirectRoute($route)
+function langRedirectRoute($route,$parameters = array())
 {
-    return Redirect::route(getLang().'.'.$route);
+    return Redirect::route(getLang().'.'.$route,$parameters);
 }
+
+
+

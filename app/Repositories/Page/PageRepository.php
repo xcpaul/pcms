@@ -3,6 +3,7 @@
 namespace Fully\Repositories\Page;
 
 use Fully\Models\Page;
+use Fully\Models\LanguageData;
 use Config;
 use Response;
 use LaravelLocalization;
@@ -30,10 +31,14 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
      *
      * @var array
      */
+    protected $translator;
     protected static $rules = [
         'title' => 'required|min:10',
         'content' => 'required|min:50', ];
+    protected static $attributeNames=
+    [
 
+    ];
     /**
      * @param Page $page
      */
@@ -41,15 +46,29 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
     {
         $config = Config::get('fully');
         $this->perPage = $config['per_page'];
+        $this->page = $page;
+
         $lan_rules=array();
+        $attributeNames=array();
         foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties){
-            $title_key='title.'.$localeCode.'';
-            $content_key='content.'.$localeCode.'';
+
+            $attrbutes=array('title','content');
+
+            $title_key='title.'.$localeCode;
+            $content_key='content.'.$localeCode;
+
             $lan_rules[$title_key]='required|min:3';
             $lan_rules[$content_key]='required|min:5';
+
+            foreach($attrbutes as $attrbute){
+                $key = "validation.attributes.".$attrbute;
+                if (($line = trans($key)) !== $key) {
+                    $attributeNames[$attrbute.'.'.$localeCode]=$line;
+                }
+            }
         }
         static::$rules=$lan_rules;
-        $this->page = $page;
+        static::$attributeNames=$attributeNames;
     }
 
     /**
@@ -99,7 +118,7 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
         $result->totalItems = 0;
         $result->items = array();
 
-        $query = $this->page->orderBy('created_at', 'DESC')->where('lang', $this->getLang());
+        $query = $this->page->orderBy('permanent', 'DESC')->orderBy('created_at', 'DESC')->where('lang', $this->getLang());
 
         if (!$all) {
             $query->where('is_published', 1);
@@ -133,25 +152,38 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
     public function create($attributes)
     {
         $lang_attributes=array();
+        if (!$this->isValid($attributes)) {
+            throw new ValidationException('Page validation failed', $this->getErrors());
+        }
         foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties){
             $lang_attribute=array();
-            $lang_attribute_validate=array();
             foreach($attributes as $name=>$attribute){
                 $lang_attribute[$name]=isset($attribute[$localeCode])?$attribute[$localeCode]:'';
-                $lang_attribute_validate[$name][$localeCode]=isset($attribute[$localeCode])?$attribute[$localeCode]:'';
             }
             $lang_attribute['is_published'] = isset($attributes['is_published'][$localeCode]) ? true : false;
-            $lang_attribute_validate['is_published'][$localeCode]=isset($attributes['is_published'][$localeCode]) ? true : false;
-            if (!$this->isValid($attributes)) {
-                throw new ValidationException('Page validation failed', $this->getErrors());
-            }
             $lang_attributes[$localeCode]=$lang_attribute;
         }
+        $pairing_id_news=LanguageData::whereType('PAGE')->max('pairing_id');
+        $pairing_id_news=$pairing_id_news?$pairing_id_news+1:1;
+
+        $page_ids=[];
         foreach($lang_attributes as $lang_localeCode=> $lang_attribute){
                 $page=new Page;
                 $page->lang =$lang_localeCode;
                 $page->fill($lang_attribute)->save();
+
+                $page_ids[$lang_localeCode]=$page->id;
         }
+
+        foreach($page_ids as $lang=>$page_id){
+            $language_data=new LanguageData;
+            $language_data->type='PAGE';
+            $language_data->lang_data_id=$page_id;
+            $language_data->lang=$lang;
+            $language_data->pairing_id=$pairing_id_news;
+            $language_data->save();
+        }
+
         return true;
     }
 
@@ -165,18 +197,43 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
      */
     public function update($id, $attributes)
     {
-        $attributes['is_published'] = isset($attributes['is_published']) ? true : false;
+        $lang_attributes=array();
+        if (!$this->isValid($attributes)) {
+            throw new ValidationException('Page validation failed', $this->getErrors());
+        }
+        foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties){
+            $lang_attribute=array();
+            foreach($attributes as $name=>$attribute){
+                $lang_attribute[$name]=isset($attribute[$localeCode])?$attribute[$localeCode]:'';
+            }
+            $lang_attribute['is_published'] = isset($attributes['is_published'][$localeCode]) ? true : false;
 
-        $this->page = $this->find($id);
-
-        if ($this->isValid($attributes)) {
-            $this->page->resluggify();
-            $this->page->fill($attributes)->save();
-
-            return true;
+            $lang_attributes[$localeCode]=$lang_attribute;
         }
 
-        throw new ValidationException('Category validation failed', $this->getErrors());
+        foreach($lang_attributes as $lang_localeCode=> $lang_attribute){
+            if(!isset($lang_attribute['id'])){
+                throw new ValidationException('Page validation failed', $this->getErrors());
+            }
+            $page=new Page;
+            $page = $this->find($lang_attribute['id']);
+            $page->fill($lang_attribute)->save();
+        }
+
+        return true;
+
+//        $attributes['is_published'] = isset($attributes['is_published']) ? true : false;
+//
+//        $this->page = $this->find($id);
+//
+//        if ($this->isValid($attributes)) {
+//            $this->page->resluggify();
+//            $this->page->fill($attributes)->save();
+//
+//            return true;
+//        }
+//
+//        throw new ValidationException('Category validation failed', $this->getErrors());
     }
 
     /**
@@ -186,7 +243,13 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
      */
     public function delete($id)
     {
-        $this->page->findOrFail($id)->delete();
+        $page_find=$this->page->findOrFail($id);
+        if($page_find&&$page_find->permanent===0){
+            return $this->page->findOrFail($id)->delete();
+        }else{
+            $this->msg='System page can\'t delete!';
+            return false;
+        }
     }
 
     /**

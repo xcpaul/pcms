@@ -9048,6 +9048,18 @@ ul.faq li > div h3 {
 #header {
   padding: 20px 0px;
   background: grey; }
+  #header a {
+    color: #bdc3c7; }
+    #header a:hover {
+      color: #d9534f; }
+  #header ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; }
+    #header ul > li {
+      display: inline-block; }
+  #header .social_icons {
+    text-align: right; }
 
 /********************************** menu **********************************/
 #menu {

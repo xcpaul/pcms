@@ -38,6 +38,10 @@ class ArticleRepository extends RepositoryAbstract implements ArticleInterface, 
         'title' => 'required',
         'content' => 'required',
     ];
+    protected static $attributeNames=
+        [
+
+        ];
 
     /**
      * @param Article $article

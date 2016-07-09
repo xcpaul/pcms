@@ -31,6 +31,6 @@ class News extends BaseModel implements ModelInterface, SluggableInterface
 
     public function getUrlAttribute()
     {
-        return getLang().'/news/'.$this->attributes['slug'];
+        return '/news/'.$this->attributes['slug'];
     }
 }

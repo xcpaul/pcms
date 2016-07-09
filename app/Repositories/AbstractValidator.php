@@ -24,10 +24,11 @@ abstract class AbstractValidator
      *
      * @return bool
      */
-    public function isValid(array $attributes, array $rules = null)
+    public function isValid(array $attributes, array $rules = null,array $attributeNames = null)
     {
 
         $v = V::make($attributes, ($rules) ? $rules : static::$rules);
+        $v->setAttributeNames(($attributeNames)?:static::$attributeNames);
         if ($v->fails()) {
             $this->setErrors($v->messages());
             return false;
