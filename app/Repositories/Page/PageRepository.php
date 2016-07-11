@@ -118,7 +118,7 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
         $result->totalItems = 0;
         $result->items = array();
 
-        $query = $this->page->orderBy('permanent', 'DESC')->orderBy('created_at', 'DESC')->where('lang', $this->getLang());
+        $query = $this->page->orderBy('created_at', 'DESC')->where('lang', $this->getLang())->with('LanguageData');
 
         if (!$all) {
             $query->where('is_published', 1);
@@ -221,19 +221,6 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
         }
 
         return true;
-
-//        $attributes['is_published'] = isset($attributes['is_published']) ? true : false;
-//
-//        $this->page = $this->find($id);
-//
-//        if ($this->isValid($attributes)) {
-//            $this->page->resluggify();
-//            $this->page->fill($attributes)->save();
-//
-//            return true;
-//        }
-//
-//        throw new ValidationException('Category validation failed', $this->getErrors());
     }
 
     /**
@@ -244,10 +231,14 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
     public function delete($id)
     {
         $page_find=$this->page->findOrFail($id);
-        if($page_find&&$page_find->permanent===0){
-            return $this->page->findOrFail($id)->delete();
+        if($page_find&&$page_find->LanguageData->permanent===0){
+            $languageDatas=LanguageData::whereType('PAGE')->wherePairing_id($page_find->LanguageData->pairing_id)
+                ->with('Page')->get();
+            foreach($languageDatas as $languageData){
+                $languageData->delete();
+                $languageData->Page->delete();
+            }
         }else{
-            $this->msg='System page can\'t delete!';
             return false;
         }
     }
@@ -280,5 +271,18 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
         }
 
         return $this->page->where('lang', $this->getLang())->count();
+    }
+    public function pairing_page($pairing_id,$lang=NULL){
+        if($lang===NULL){
+            $lang=getLang();
+        }
+        $languageData=LanguageData::whereType('PAGE')->wherePairing_id($pairing_id)->
+            whereHas('Page', function($q) use($lang)
+            {
+                $q->whereLang($lang);
+
+            })->get()->first();
+        $page=$languageData?$languageData->Page:false;
+        return $page;
     }
 }

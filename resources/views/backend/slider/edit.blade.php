@@ -47,6 +47,30 @@
             @endif
         </div>
     </div>
+
+    <br>
+    <div class="control-group {!! $errors->has('link') ? 'has-error' : '' !!}">
+        <label class="control-label" for="link">Link</label>
+
+        <div class="controls">
+            {!! Form::text('link', $slider->link, array('class'=>'form-control', 'id' => 'link', 'placeholder'=>'Link', 'value'=>Input::old('link'))) !!}
+            @if ($errors->first('link'))
+                <span class="help-block">{!! $errors->first('link') !!}</span>
+            @endif
+        </div>
+    </div>
+
+    <div class="control-group {!! $errors->has('target') ? 'has-error' : '' !!}">
+        <label class="control-label" for="link">Target</label>
+
+        <div class="controls">
+            {!! Form::select('target', array('_self' => 'Same Window', '_blank' => 'New Window'), $slider->target, array('class' => 'form-control', 'value'=>Input::old('target'))) !!}
+            @if ($errors->first('target'))
+                <span class="help-block">{!! $errors->first('target') !!}</span>
+            @endif
+        </div>
+    </div>
+
     <br>
 
     <!-- Image -->

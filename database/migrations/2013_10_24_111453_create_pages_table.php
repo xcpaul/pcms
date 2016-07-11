@@ -17,7 +17,7 @@ class CreatePagesTable extends Migration
             $table->text('content');
             $table->timestamps();
             $table->boolean('is_published')->default(true);
-            $table->integer('permanent',1)->default(0);
+
             $table->interger('pub_page_id');
             $table->string('lang', 20);
         });

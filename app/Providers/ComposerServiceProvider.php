@@ -14,6 +14,7 @@ class ComposerServiceProvider extends ServiceProvider
     {
         // Frontend
         View::composer('frontend.layout.menu', 'Fully\Composers\MenuComposer');
+        View::composer('frontend.layout.footer', 'Fully\Composers\FooterComposer');
         View::composer('frontend.layout.layout', 'Fully\Composers\SettingComposer');
         View::composer('frontend.layout.footer', 'Fully\Composers\ArticleComposer');
         View::composer('frontend.news.sidebar', 'Fully\Composers\NewsComposer');

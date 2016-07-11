@@ -33,5 +33,8 @@ class Page extends BaseModel implements ModelInterface, SluggableInterface
     {
         return 'page/'.$this->attributes['slug'];
     }
-
+    public function LanguageData()
+    {
+        return $this->hasOne('Fully\Models\LanguageData', 'lang_data_id','id');
+    }
 }

@@ -15,6 +15,7 @@ class CreateLanguageDataTable extends Migration
             $table->string('type', 255);
             $table->string('lang_data_id')->nullable();
             $table->string('lang',20);
+            $table->integer('permanent',1)->default(0);
             $table->interger('pairing_id');
         });
     }

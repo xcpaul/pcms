@@ -27,7 +27,7 @@
         <label class="control-label" for="title">Title</label>
 
         <div class="controls">
-            {!! Form::text('title', null, array('class'=>'form-control', 'id' => 'title', 'placeholder'=>'Title', 'value'=>Input::old('title'))) !!}
+            {!! Form::text('title', null, array('class'=>'form-control', 'id' => 'title','required'=>'required', 'placeholder'=>'Title', 'value'=>Input::old('title'))) !!}
             @if ($errors->first('title'))
             <span class="help-block">{!! $errors->first('title') !!}</span>
             @endif
@@ -40,7 +40,7 @@
         <label class="control-label" for="description">Description</label>
 
         <div class="controls">
-            {!! Form::textarea('description', null, array('class'=>'form-control', 'id' => 'description', 'placeholder'=>'Description', 'value'=>Input::old('description'))) !!}
+            {!! Form::textarea('description', null, array('class'=>'form-control', 'id' => 'description','required'=>'required', 'placeholder'=>'Description', 'value'=>Input::old('description'))) !!}
             @if ($errors->first('description'))
             <span class="help-block">{!! $errors->first('description') !!}</span>
             @endif
@@ -48,6 +48,29 @@
     </div>
     <br>
 
+    <div class="control-group {!! $errors->has('link') ? 'has-error' : '' !!}">
+        <label class="control-label" for="link">Link</label>
+
+        <div class="controls">
+            {!! Form::text('link', null, array('class'=>'form-control', 'id' => 'link','required'=>'required', 'placeholder'=>'Link','type'=>'url','value'=>Input::old('link'))) !!}
+            @if ($errors->first('link'))
+                <span class="help-block">{!! $errors->first('link') !!}</span>
+            @endif
+        </div>
+    </div>
+
+    <div class="control-group {!! $errors->has('target') ? 'has-error' : '' !!}">
+        <label class="control-label" for="link">Target</label>
+
+        <div class="controls">
+            {!! Form::select('target', array('_self' => 'Same Window', '_blank' => 'New Window'), null, array('class' => 'form-control', 'value'=>Input::old('target'))) !!}
+            @if ($errors->first('target'))
+                <span class="help-block">{!! $errors->first('target') !!}</span>
+            @endif
+        </div>
+    </div>
+
+    <br>
     <!-- Image -->
     <div class="fileinput fileinput-new control-group {!! $errors->has('image') ? 'has-error' : '' !!}" data-provides="fileinput">
         <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>

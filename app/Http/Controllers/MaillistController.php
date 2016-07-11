@@ -3,7 +3,7 @@
 namespace Fully\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Fully\Models\Maillist;
 use Flash;
 use Validator;
 use Redirect;

@@ -19,6 +19,8 @@ class CreateSlidersTable extends Migration
             $table->integer('file_size');
             $table->integer('order');
             $table->string('lang', 20);
+            $table->string('target', 20);
+            $table->string('link', 50);
             $table->timestamps();
         });
     }

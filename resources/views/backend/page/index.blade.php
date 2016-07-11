@@ -77,7 +77,7 @@
                                         <a href="{!! langRoute('admin.page.edit', array($page->id)) !!}">
                                             <span class="glyphicon glyphicon-edit"></span>
                                         </a>
-                                        @if($page->permanent===0)
+                                        @if($page->LanguageData->permanent===0)
                                             <a href="{!! URL::route('admin.page.delete', array($page->id)) !!}">
                                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                             </a>

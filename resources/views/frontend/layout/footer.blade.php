@@ -66,11 +66,11 @@
             </div>
 
              <div class="col-md-3 col-sm-6">
-                <h4>About Us</h4>
+                <h4>{{$footer_about_us->title}}</h4>
 
-                <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
-
-                <p>Pellentesque habitant morbi tristique senectus.</p>
+                <div>
+                    {!! $footer_about_us->content !!}
+                </div>
                 <hr>
                 <ul class="social clearfix">
                     <li><a href="#" title="" data-original-title="Facebook" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-facebook"></i></a></li>

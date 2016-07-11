@@ -21,8 +21,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="carousel-content centered">
-                                <h2 class="animation animated-item-1">{!! $slider->title !!}</h2>
-
+                                <h2 class="animation animated-item-1"><a href="{!! $slider->link !!}" target="{!! $slider->target !!}">{!! $slider->title !!}</a></h2>
                                 <p class="animation animated-item-2">{!! $slider->description !!}</p>
                             </div>
                         </div>

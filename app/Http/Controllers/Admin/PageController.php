@@ -140,13 +140,13 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
+
         if( $this->page->delete($id)){
             Flash::message('Page was successfully deleted');
             return langRedirectRoute('admin.page.index');
         }
         else{
-
-            return langRedirectRoute('admin.page.index')->withErrors($this->page->msg);
+            return langRedirectRoute('admin.page.index')->withErrors('Page can\'t delete!');
         }
     }
 

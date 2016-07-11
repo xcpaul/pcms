@@ -14,7 +14,7 @@
 <br>
 <div class="container">
 
-    {!! Form::open(array('action' => '\Fully\Http\Controllers\Admin\PageController@store')) !!}
+    {!! Form::open(array('action' => '\Fully\Http\Controllers\Admin\PageController@store','id'=>'form')) !!}
     <div class="col-md-12">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
@@ -25,12 +25,12 @@
             </ul>
             <div class="tab-content">
                 @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                    <div  class="{{$localeCode==LaravelLocalization::getCurrentLocale()?'active':''}} tab-pane" id="box-{{$localeCode}}">
+                    <div  class="{{$localeCode==LaravelLocalization::getCurrentLocale()?'active':''}} tab-pane languagesbox" id="box-{{$localeCode}}">
                         <!-- Title -->
                         <div class="control-group {!! $errors->has('title.'.$localeCode) ? 'has-error' : '' !!}">
                             <label class="control-label" for="title">Title</label>
                             <div class="controls">
-                                {!! Form::text('title['.$localeCode.']', null, array('class'=>'form-control', 'id' => 'title'.$localeCode, 'placeholder'=>'Title', 'value'=>Input::old('title.'.$localeCode))) !!}
+                                {!! Form::text('title['.$localeCode.']', null, array('class'=>'form-control', 'id' => 'title'.$localeCode, 'placeholder'=>'Title','required'=>'required', 'value'=>Input::old('title.'.$localeCode))) !!}
                                 @if ($errors->first('title.'.$localeCode))
                                     <span class="help-block">{!! $errors->first('title.'.$localeCode) !!}</span>
                                 @endif
@@ -42,7 +42,7 @@
                             <label class="control-label" for="title">Content</label>
 
                             <div class="controls">
-                                {!! Form::textarea('content['.$localeCode.']', null, array('class'=>'form-control', 'id' => 'content'.$localeCode, 'placeholder'=>'Content', 'value'=>Input::old('content.'.$localeCode))) !!}
+                                {!! Form::textarea('content['.$localeCode.']', null, array('class'=>'form-control', 'id' => 'content'.$localeCode, 'placeholder'=>'Content','required'=>'required', 'value'=>Input::old('content.'.$localeCode))) !!}
                                 @if ($errors->first('content.'.$localeCode))
                                     <span class="help-block">{!! $errors->first('content.'.$localeCode) !!}</span>
                                 @endif
@@ -69,21 +69,42 @@
     {!! Form::submit('Create', array('class' => 'btn btn-success')) !!}
     {!! Form::close() !!}
     <script>
+
         $('.nav-tabs li a').click(function (e) {
             e.preventDefault();
-            var id=$(this).attr('href').replace('#box-', '');
+            $(this).tab('show')
+        });
+        $('.nav-tabs li a').on('shown.bs.tab', function (e) {
+            var id=$(e.target).attr('href').replace('#box-', '');
             if (CKEDITOR.instances['content'+id]) {
                 CKEDITOR.instances['content'+id].destroy();
             }
             CKEDITOR.replace('content'+id);
-            $(this).tab('show')
-        })
+        });
 
         window.onload = function () {
             CKEDITOR.replace('content{!! getLang() !!}', {
                 "filebrowserBrowseUrl": "{!! url('filemanager/show') !!}"
             });
         };
+
+        $("#form").validate({
+            ignore: [],
+            submitHandler: function(form) {
+                $("input[type=submit]").attr('disabled', false);
+                if ($(form).valid()) {
+                    $("input[type=submit]").attr('disabled', true);
+                    form.submit();
+                }
+            },
+            invalidHandler: function(e, validator){
+                var input = $(validator.errorList[0].element);
+                var language_tab = input.attr('data-language');
+                var active_href='#box-'+language_tab;
+                $('.nav-tabs li a[href='+active_href+']').tab('show');
+                input.focus();
+            }
+        });
     </script>
 </div>
 @stop

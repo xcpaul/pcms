@@ -24,6 +24,8 @@
     {!! HTML::style("assets/css/github-left.css") !!}
     <!-- jQuery 2.1.3 -->
     <script src="{!! url('backend/plugins/jQuery/jQuery-2.1.3.min.js') !!}"></script>
+    <script src="{!! url('backend/plugins/jQuery/jquery.cookie.js') !!}"></script>
+    <script src="{!! url('backend/plugins/jQuery/jquery.validate.min.js') !!}"></script>
     <!-- Bootstrap 3.3.2 JS -->
     <script src="{!! url('backend/bootstrap/js/bootstrap.min.js') !!}" type="text/javascript"></script>
     <!-- FastClick -->
@@ -48,6 +50,7 @@
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <!-- AdminLTE for demo purposes -->
     <script src="{!! url('backend/js/demo.js') !!}" type="text/javascript"></script>
+    <script src="{!! url('backend/js/common.js') !!}" type="text/javascript"></script>
 
     <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
@@ -73,14 +76,14 @@
 
                     <li class="dropdown messages-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                            <img alt="" src="img/flags/us.png">
+                            <img alt="" src="{!!url('/')!!}/img/flags/{{getLang()}}.png">
                             <span class="username">{{ LaravelLocalization::getCurrentLocaleName() }}</span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
                             @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                                 <li>
-                                    <a href="{{LaravelLocalization::getLocalizedURL($localeCode) }}" hreflang="{{$localeCode}}"><img alt="" src="img/flags/es.png">{{{ $properties['native'] }}}</a>
+                                    <a href="{{LaravelLocalization::getLocalizedURL($localeCode) }}" hreflang="{{$localeCode}}"><img alt="" src="{!!url('/')!!}/img/flags/{{$localeCode}}.png">{{ $properties['native'] }}</a>
 
                                 </li>
                             @endforeach

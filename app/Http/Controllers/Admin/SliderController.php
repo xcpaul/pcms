@@ -8,6 +8,7 @@ use Input;
 use Fully\Models\Slider;
 use Fully\Services\Pagination;
 use Fully\Repositories\Slider\SliderInterface;
+use Fully\Exceptions\Validation\ValidationException;
 use Response;
 use File;
 use Image;
@@ -21,9 +22,7 @@ use Flash;
  */
 class SliderController extends Controller
 {
-    protected $width;
-    protected $height;
-    protected $imgDir;
+
     protected $slider;
     protected $perPage;
 
@@ -31,11 +30,9 @@ class SliderController extends Controller
     {
         View::share('active', 'plugins');
         $this->slider=$slider;
-        $config = Config::get('fully');
+
         $this->perPage = config('fully.modules.slider.per_page');
-        $this->width = $config['modules']['slider']['image_size']['width'];
-        $this->height = $config['modules']['slider']['image_size']['height'];
-        $this->imgDir = $config['modules']['slider']['image_dir'];
+
     }
 
     /**
@@ -67,37 +64,13 @@ class SliderController extends Controller
      */
     public function store()
     {
-        $formData = Input::all();
-        $slider = new Slider();
-
-        $upload_success = null;
-
-        if (isset($formData['image'])) {
-            $file = $formData['image'];
-
-            $destinationPath = public_path().$this->imgDir;
-            $fileName = $file->getClientOriginalName();
-            $fileSize = $file->getClientSize();
-
-            $upload_success = $file->move($destinationPath, $fileName);
-
-            // resizing an uploaded file
-            Image::make($destinationPath.$fileName)->resize($this->width, $this->height)->save($destinationPath.$fileName);
-
-            $slider->file_name = $fileName;
-            $slider->file_size = $fileSize;
-
-            $slider->path = $this->imgDir.$fileName;
+        try {
+            $this->slider->create(Input::all());
+            Flash::message('Slide was successfully added');
+            return langRedirectRoute('admin.slider.index');
+        } catch (ValidationException $e) {
+            return langRedirectRoute('admin.slider.create')->withInput()->withErrors($e->getErrors());
         }
-
-        $slider->title = $formData['title'];
-        $slider->description = $formData['description'];
-        $slider->lang = getLang();
-        $slider->save();
-
-        Flash::message('Slider was successfully added');
-
-        return langRedirectRoute('admin.slider.index');
     }
 
     /**
@@ -110,7 +83,6 @@ class SliderController extends Controller
     public function edit($id)
     {
         $slider = Slider::findOrFail($id);
-
         return view('backend.slider.edit', compact('slider'));
     }
 
@@ -123,40 +95,13 @@ class SliderController extends Controller
      */
     public function update($id)
     {
-        $formData = Input::all();
-        $slider = Slider::findOrFail($id);
-
-        if (isset($formData['image'])) {
-            if ($file = $formData['image']) {
-
-                // delete old image
-                $destinationPath = public_path().$this->imgDir;
-                File::delete($destinationPath.$slider->file_name);
-
-                $destinationPath = public_path().$this->imgDir;
-                $fileName = $file->getClientOriginalName();
-                $fileSize = $file->getClientSize();
-
-                $upload_success = $file->move($destinationPath, $fileName);
-
-                if ($upload_success) {
-
-                    // resizing an uploaded file
-                    Image::make($destinationPath.$fileName)->resize($this->width, $this->height)->save($destinationPath.$fileName);
-
-                    $slider->file_name = $fileName;
-                    $slider->file_size = $fileSize;
-                    $slider->path = $this->imgDir.$fileName;
-                }
-            }
+        try {
+            $this->slider->update($id, Input::all());
+            Flash::message('Slider was successfully updated');
+            return langRedirectRoute('admin.slider.index');
+        } catch (ValidationException $e) {
+            return langRedirectRoute('admin.slider.edit',array($id))->withInput()->withErrors($e->getErrors());
         }
-        $slider->title = $formData['title'];
-        $slider->description = $formData['description'];
-        $slider->save();
-
-        Flash::message('Slider was successfully updated');
-
-        return langRedirectRoute('admin.slider.index');
     }
 
     /**
