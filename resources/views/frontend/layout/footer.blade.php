@@ -96,12 +96,9 @@
             </div>
 
             <div class="col-md-3 col-sm-6">
-                <h4>Address</h4>
+                <h4>{{$footer_address->title}}</h4>
                 <address>
-                    <strong>Twitter, Inc.</strong><br>
-                    795 Folsom Ave, Suite 600<br>
-                    San Francisco, CA 94107<br>
-                    <abbr title="Phone">P:</abbr> (123) 456-7890
+                    {!! $footer_address->content !!}
                 </address>
 
                 <h4>{!!  trans('fully.newsletter') !!}</h4>

@@ -165,9 +165,7 @@ class UserController extends Controller
         $user->last_name = $formData['last-name'];
 
         Sentinel::update($user, $formData);
-
         $oldRoles = $user->getRoles()->lists('name', 'id')->toArray();
-
         foreach ($oldRoles as $id => $role) {
             $roleModel = Sentinel::findRoleByName($role);
             $roleModel->users()->detach($user);
@@ -180,7 +178,7 @@ class UserController extends Controller
             }
         }
 
-        return Redirect::route('admin.users.index');
+        return langRedirectRoute('admin.user.index');
     }
 
     /**

@@ -21,12 +21,16 @@ class SentinelPermission
     {
         if (Sentinel::check()) {
             if (!Sentinel::inRole('superadmin')) {
+
+
                 if (!$request->route()->getName()) {
                     return $next($request);
                 }
-                if ($request->route()->getName() != 'admin.dashboard' && !Sentinel::hasAccess($request->route()->getName())) {
-                    Flash::error('You are not permitted to access this area');
+                $route_name=$request->route()->getName();
+                $clean_route_name=str_replace(getLang().'.','',$route_name);
 
+                if ($clean_route_name != 'admin.dashboard' && !Sentinel::hasAccess($clean_route_name)) {
+                    Flash::error('You are not permitted to access this area');
                     return Redirect::route('admin.dashboard')->withErrors('Permission denied.');
                 }
             }

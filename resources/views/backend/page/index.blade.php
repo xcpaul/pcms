@@ -82,7 +82,7 @@
                                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                             </a>
                                         @endif
-                                        <a target="_blank" href="{!! URL::route('dashboard.page.show', ['slug' => $page->slug]) !!}">
+                                        <a target="_blank" href="{!! URL::route('dashboard.page.show', ['id' => $page->id]) !!}">
                                             <span class="glyphicon glyphicon-eye-open"></span>
                                         </a>
                                 </td>

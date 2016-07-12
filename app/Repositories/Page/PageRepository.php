@@ -167,14 +167,15 @@ class PageRepository extends RepositoryAbstract implements PageInterface, Crudab
         $pairing_id_news=$pairing_id_news?$pairing_id_news+1:1;
 
         $page_ids=[];
+
         foreach($lang_attributes as $lang_localeCode=> $lang_attribute){
                 $page=new Page;
                 $page->lang =$lang_localeCode;
+                $page->fill($lang_attribute);
                 $page->fill($lang_attribute)->save();
-
                 $page_ids[$lang_localeCode]=$page->id;
-        }
 
+        }
         foreach($page_ids as $lang=>$page_id){
             $language_data=new LanguageData;
             $language_data->type='PAGE';

@@ -24,6 +24,7 @@ class Page extends BaseModel implements ModelInterface, SluggableInterface
         'save_to' => 'slug',
     );
 
+
     public function setUrlAttribute($value)
     {
         $this->attributes['url'] = $value;
@@ -31,8 +32,9 @@ class Page extends BaseModel implements ModelInterface, SluggableInterface
 
     public function getUrlAttribute()
     {
-        return 'page/'.$this->attributes['slug'];
+        return 'page/'.$this->attributes['id'];
     }
+
     public function LanguageData()
     {
         return $this->hasOne('Fully\Models\LanguageData', 'lang_data_id','id');

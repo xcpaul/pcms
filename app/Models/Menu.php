@@ -101,7 +101,6 @@ class Menu extends Model
         $opts = array();
         $page = new PageRepository(new Page());
         $pageOpts = $page->lists();
-
         foreach ($pageOpts as $k => $v) {
             $opts['Page']['Fully\Models\Page-'.$k] = $v;
         }

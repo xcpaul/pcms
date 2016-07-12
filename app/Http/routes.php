@@ -45,7 +45,7 @@ Route::group(array('prefix' => LaravelLocalization::getCurrentLocale(), 'before'
 
     // page
     Route::get('/page', array('as' => 'dashboard.page', 'uses' => 'PageController@index'));
-    Route::get('/page/{slug}', array('as' => 'dashboard.page.show', 'uses' => 'PageController@show'));
+    Route::get('/page/{id}', array('as' => 'dashboard.page.show', 'uses' => 'PageController@show'));
 
     // photo gallery
     Route::get('/photo-gallery/{slug}', array('as' => 'dashboard.photo_gallery.show',

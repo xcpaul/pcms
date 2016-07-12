@@ -58,7 +58,7 @@
         <div class="controls">
 
             @foreach($roles as $id=>$role)
-            <label><input {!! ((in_array($role, $userRoles)) ? 'checked' : '') !!} type="checkbox" value="{!! $id !!}" name="groups[{!! $role !!}]">  {!! $role !!}</label>
+            <label><input {!! ((in_array($role, $userRoles)) ? 'checked' : '') !!} type="checkbox" value="{!! $id !!}" name="roles[{!! $role !!}]">  {!! $role !!}</label>
             @endforeach
 
         </div>

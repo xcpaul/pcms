@@ -31,6 +31,7 @@ class FooterComposer
     public function compose($view)
     {
         $footer_about_us = $this->page->pairing_page(1);
-        $view->with('footer_about_us', $footer_about_us);
+        $footer_address = $this->page->pairing_page(2);
+        $view->with(compact('footer_about_us','footer_address'));
     }
 }

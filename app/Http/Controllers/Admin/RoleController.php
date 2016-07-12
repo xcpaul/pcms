@@ -66,13 +66,13 @@ class RoleController extends Controller
         $validation = Validator::make($formData, $rules);
 
         if ($validation->fails()) {
-            return Redirect::action('Admin\RolesController@create')->withErrors($validation)->withInput();
+            return Redirect::action('Admin\RoleController@create')->withErrors($validation)->withInput();
         }
 
         Role::create($formData);
         Flash::message('Role was successfully added');
 
-        return Redirect::action('App\Controllers\Admin\RoleController@index');
+        return Redirect::action('Admin\RoleController@index');
     }
 
     /**
@@ -133,7 +133,7 @@ class RoleController extends Controller
 
         Flash::message('Role was successfully updated');
 
-        return Redirect::action('App\Controllers\Admin\RoleController@index');
+        return Redirect::action('Admin\RoleController@index');
     }
 
     /**
@@ -150,7 +150,7 @@ class RoleController extends Controller
 
         Flash::message('Role was successfully deleted');
 
-        return Redirect::action('App\Controllers\Admin\RoleController@index');
+        return Redirect::action('Admin\RoleController@index');
     }
 
     /**
