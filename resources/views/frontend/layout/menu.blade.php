@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <a  href="{!! url('/' . getLang()) !!}"><img src="{!! url('frontend/images/logo.png') !!}" alt="logo"></a>
+                <a  href="{!! url('/' . getLang()) !!}"><img src="{!! $settings['file_name']?url($settings['path'].$settings['file_name']):url('frontend/images/logo.png')!!}" alt="logo"></a>
             </div>
             <div class="col-md-4">
                 <ul class="language_bar_chooser">

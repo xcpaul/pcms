@@ -5,16 +5,18 @@
 <section id="title" class="emerald">
     <div class="container">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
+                @yield('partial/breadcrumbs', Breadcrumbs::render('faq'))
+                {{--<ol class="breadcrumb">--}}
+                    {{--<li><a href="#">Home</a></li>--}}
+                    {{--<li class="active">Faq</li>--}}
+                {{--</ol>--}}
+            </div>
+            <div class="col-sm-12">
                 <h1>Faqs</h1>
                 <p>Pellentesque habitant morbi tristique senectus et netus et malesuada</p>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li class="active">Faq</li>
-                </ol>
-            </div>
+
         </div>
     </div>
 </section><!--/#title-->

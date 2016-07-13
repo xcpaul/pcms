@@ -15,6 +15,9 @@ class CreateSettingsTable extends Migration
             $table->text('settings');
             $table->timestamps();
             $table->string('lang', 20);
+            $table->string('path', 255)->nullable();
+            $table->string('file_name', 255)->nullable();
+            $table->integer('file_size')->nullable();
         });
     }
 

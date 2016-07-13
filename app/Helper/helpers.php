@@ -13,7 +13,7 @@ if (!function_exists('gratavarUrl')) {
      */
     function gravatarUrl($email, $size = 60, $default = 'mm', $rating = 'g')
     {
-        return 'http://www.gravatar.com/avatar/'.md5(strtolower(trim($email)))."?s={$size}&d={$default}&r={$rating}";
+//        return 'http://www.gravatar.com/avatar/'.md5(strtolower(trim($email)))."?s={$size}&d={$default}&r={$rating}";
     }
 }
 

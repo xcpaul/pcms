@@ -64,6 +64,11 @@ Breadcrumbs::register('project', function ($breadcrumbs) {
     $breadcrumbs->parent('home');
     $breadcrumbs->push('Project', route('dashboard.project'));
 });
+Breadcrumbs::register('faq', function ($breadcrumbs) {
+
+    $breadcrumbs->parent('home');
+    $breadcrumbs->push('Faq', route('dashboard.project'));
+});
 
 Breadcrumbs::register('project.show', function ($breadcrumbs, $project) {
 

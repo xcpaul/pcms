@@ -30,7 +30,7 @@
                 </a></li>
             <li class="{{ setActive('admin/menu*') }}"><a href="{{ url(getLang() . '/admin/menu') }}"> <i class="fa fa-bars"></i> <span>{{trans('backend.menu')}}</span> </a>
             </li>
-            <li class="treeview {{ setActive('admin/news*') }}"><a href="#"> <i class="fa fa-th"></i> <span>{{trans('backend.news')}}</span>
+            <li class="treeview {{ setActive(['admin/news*']) }}"><a href="#"> <i class="fa fa-th"></i> <span>{{trans('backend.news')}}</span>
                     <i class="fa fa-angle-left pull-right"></i> </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ url(getLang() . '/admin/news') }}"><i class="fa fa-calendar"></i> {{trans('backend.all_news')}}</a>
@@ -60,13 +60,15 @@
 
                 </ul>
             </li>
-            <li class="treeview {{ setActive('admin/article*') }}"><a href="#"> <i class="fa fa-book"></i> <span>{{trans('backend.articles')}}</span>
+            <li class="treeview {{ setActive(['admin/article*','admin/category*']) }}"><a href="#"> <i class="fa fa-book"></i> <span>{{trans('backend.articles')}}</span>
                     <i class="fa fa-angle-left pull-right"></i> </a>
                 <ul class="treeview-menu">
                     <li><a href="{{ url(getLang() . '/admin/article') }}"><i class="fa fa-archive"></i>{{trans('backend.all_articles')}}</a>
                     </li>
                     <li>
                         <a href="{{ url(getLang() . '/admin/article/create') }}"><i class="fa fa-plus-square"></i>{{trans('backend.add_articles')}}</a>
+                    </li>
+                        <li><a href="{{ url(getLang() . '/admin/category') }}"><i class="fa fa-plus-square"></i> {{trans('backend.category')}}</a>
                     </li>
                 </ul>
             </li>

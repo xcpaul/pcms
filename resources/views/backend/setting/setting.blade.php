@@ -1,5 +1,7 @@
 @extends('backend/layout/layout')
 @section('content')
+    {!! HTML::style('jasny-bootstrap/css/jasny-bootstrap.min.css') !!}
+    {!! HTML::script('jasny-bootstrap/js/jasny-bootstrap.min.js') !!}
 <script type="text/javascript">
     $(document).ready(function () {
         $('#notification').show().delay(4000).fadeOut(700);
@@ -31,7 +33,7 @@
             <h4><i class="glyphicon glyphicon-cog"></i> Settings</h4>
 
             <br>
-            {!! Form::open() !!}
+            {!! Form::open(array('files'=>true)) !!}
 
             <!-- Title -->
             <div class="control-group {!! $errors->has('site_title') ? 'has-error' : '' !!}">
@@ -71,6 +73,18 @@
                 </div>
             </div>
             <br>
+            <!-- Image -->
+            <div class="fileinput fileinput-new control-group {!! $errors->has('image') ? 'has-error' : '' !!}" data-provides="fileinput">
+                <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                    <img data-src="" {!! (($setting['path']) ? "src='".url($setting['path']).'/'.$setting['file_name']."'" : null) !!} alt="...">
+                </div>
+                <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                <div>
+                    <div> <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
+                            {!! Form::file('image', null, array('class'=>'form-control', 'id' => 'image', 'placeholder'=>'Image', 'value'=>Input::old('image'))) !!}
+                            @if ($errors->first('image')) <span class="help-block">{!! $errors->first('image') !!}</span> @endif </span> <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
+                </div>
+                <br>
 
             <!-- Meta Description -->
             <div class="control-group {!! $errors->has('meta_description') ? 'has-error' : '' !!}">

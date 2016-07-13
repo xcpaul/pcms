@@ -9,6 +9,7 @@ return array(
     'news'=>'新闻',
     'all_news'=>'所有新闻',
     'add_news'=>'添加新闻',
+    'category'=>'分类',
 
     'pages'=>'单页',
     'all_pages'=>' 所有页面',

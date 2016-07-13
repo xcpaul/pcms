@@ -280,7 +280,7 @@ class ArticleRepository extends RepositoryAbstract implements ArticleInterface, 
             }
 
             $articleTags = explode(',', $attributes['tag']);
-
+            $this->article->tags()->detach();
             foreach ($articleTags as $articleTag) {
                 if (!$articleTag) {
                     continue;

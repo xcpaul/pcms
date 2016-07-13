@@ -53,6 +53,21 @@ return [
             'per_page' => 10,
         ],
 
+        'setting' => [
+
+            'image_size' => [
+                'width'  => 190,
+                'height' => 27
+            ],
+            'thumb_size' => [
+                'width'  => 190,
+                'height' => 27
+            ],
+
+            'image_dir' => '/uploads/setting/',
+
+            'per_page' => 10,
+        ],
         'news' => [
 
             'image_size' => [
@@ -92,7 +107,6 @@ return [
             'per_page' => 12,
         ],
         'menu'     => [],
-        'setting'  => [],
         'user'     => [],
         'group'    => [],
     ]

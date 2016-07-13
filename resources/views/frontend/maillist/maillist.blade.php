@@ -26,7 +26,7 @@
     @include('flash::message')
     <div class="row">
         <div class="col-xs-6 col-md-4">
-            {!! Form::open(array('route' => 'frontend.maillist')) !!}
+            {!! Form::open(array('route' => 'frontend.maillist.post')) !!}
 
             <!-- Email -->
             <div class="control-group {!! $errors->has('email') ? 'has-error' : '' !!}">

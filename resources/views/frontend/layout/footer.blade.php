@@ -105,7 +105,7 @@
 
                 {!! Form::open(array('route' => 'frontend.maillist.post', 'id'=>'newsletterForm', 'novalidate'=>'novalidate')) !!}
                 <div class="input-group">
-                    <input type="text" class="form-control" autocomplete="off" placeholder="{!!  trans('fully.enter_your_email') !!}">
+                    {!! Form::text('email', null, array('class'=>'form-control', 'id' => 'email', 'placeholder'=>trans('fully.enter_your_email'), 'value'=>Input::old('email'))) !!}
                     <span class="input-group-btn">
                         <button class="btn btn-danger" type="submit">{!!  trans('fully.button_save') !!}</button>
                     </span>

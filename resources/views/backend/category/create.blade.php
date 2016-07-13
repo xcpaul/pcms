@@ -30,7 +30,7 @@
     <br>
     <!-- Form actions -->
     {!! Form::submit('Save Changes', array('class' => 'btn btn-success')) !!}
-    <a href="{!! langUrl('admin/category') !!}" class="btn btn-default">&nbsp;Cancel</a>
+    <a href="{!! langRoute('admin.category.index') !!}" class="btn btn-default">&nbsp;Cancel</a>
     {!! Form::close() !!}
 </div>
 @stop

@@ -44,11 +44,10 @@ class CategoryController extends Controller
     {
         $articles = $this->category->getArticlesBySlug($slug);
 
-        $tags = $this->tag->all();
         $pagiData = $this->category->paginate($request->get('page', 1), $this->perPage, false);
 
         $categories = Pagination::makeLengthAware($pagiData->items, $pagiData->totalItems, $this->perPage);
 
-        return view('frontend.category.index', compact('articles', 'tags', 'categories'));
+        return view('frontend.category.index', compact('articles', 'categories'));
     }
 }

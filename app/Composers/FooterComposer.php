@@ -3,6 +3,7 @@
 namespace Fully\Composers;
 
 use Menu;
+use Fully\Repositories\Tag\TagInterface;
 use Fully\Repositories\Page\PageInterface;
 
 /**
@@ -16,13 +17,14 @@ class FooterComposer
      * @var \Fully\Repositories\Menu\MenuInterface
      */
     protected $page;
-
+    protected $tag;
     /**
      * @param MenuInterface $menu
      */
-    public function __construct(PageInterface $page)
+    public function __construct(PageInterface $page, TagInterface $tag)
     {
         $this->page = $page;
+        $this->tag = $tag;
     }
 
     /**
@@ -32,6 +34,7 @@ class FooterComposer
     {
         $footer_about_us = $this->page->pairing_page(1);
         $footer_address = $this->page->pairing_page(2);
-        $view->with(compact('footer_about_us','footer_address'));
+        $tags = $this->tag->all();
+        $view->with(compact('footer_about_us','footer_address','tags'));
     }
 }
